@@ -2,37 +2,47 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Квиз — подбор решения</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0c">
+  <title>Квиз — подбор компьютера | STAR-COMP</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <section class="quiz" id="quiz">
-    <div class="quiz__container">
-
-      <div class="quiz__progress">
-        <div class="quiz__progress-bar" style="width: 0%"></div>
+  <header class="header">
+    <div class="wrap">
+      <div class="header__bar">
+        <a class="logo" href="https://star-comp.ru" aria-label="STAR-COMP — на главную">STAR<span>-</span>COMP</a>
       </div>
-
-      <div class="quiz__step is-active" data-step="1">
-        <p class="quiz__counter">Шаг 1</p>
-        <h2 class="quiz__title">Как будем подбирать?</h2>
-
-        <div class="quiz__options">
-          <button type="button" class="quiz__option" data-value="budget">
-            <span class="quiz__option-title">Подберите под мой бюджет</span>
-            <span class="quiz__option-text">Укажите бюджет и задачи, мы подберем</span>
-          </button>
-
-          <button type="button" class="quiz__option" data-value="self">
-            <span class="quiz__option-title">Самостоятельно</span>
-            <span class="quiz__option-text">Вышлем расчет стоимости по выбранным параметрам</span>
-          </button>
-        </div>
-      </div>
-
     </div>
-  </section>
+  </header>
+
+  <main>
+    <section class="quiz wrap" id="quiz">
+      <div class="quiz__card">
+
+        <div class="quiz__progress" aria-hidden="true">
+          <div class="quiz__progress-bar" style="width: 0%"></div>
+        </div>
+
+        <div class="quiz__step is-active" data-step="1">
+          <h1 class="quiz__title">Как будем подбирать?</h1>
+
+          <div class="quiz__options">
+            <button type="button" class="quiz__option" data-value="budget">
+              <span class="quiz__option-title">Подберите под мой бюджет</span>
+              <span class="quiz__option-text">Укажите бюджет и задачи, мы подберем</span>
+            </button>
+
+            <button type="button" class="quiz__option" data-value="self">
+              <span class="quiz__option-title">Самостоятельно</span>
+              <span class="quiz__option-text">Вышлем расчет стоимости по выбранным параметрам</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
