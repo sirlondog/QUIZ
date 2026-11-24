@@ -28,7 +28,7 @@
       </div>
 
       <div class="quiz__top">
-        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">2</span></p>
+        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">3</span></p>
         <button type="button" class="quiz__close" aria-label="Закрыть квиз">&times;</button>
       </div>
 
@@ -54,6 +54,30 @@
         <label class="quiz__field">
           <textarea class="quiz__input" rows="4" placeholder="Для игр, 3D-моделирования, для других задач"></textarea>
         </label>
+
+        <button type="button" class="quiz__next" data-next>Далее</button>
+      </div>
+
+      <div class="quiz__step" data-step="3">
+        <h2 class="quiz__title">Укажите примерный бюджет на компьютер</h2>
+
+        <div class="budget">
+          <div class="budget__dial">
+            <svg class="budget__svg" viewBox="0 0 240 240" aria-hidden="true">
+              <circle class="budget__track" cx="120" cy="120" r="100" transform="rotate(135 120 120)"></circle>
+              <circle class="budget__fill" cx="120" cy="120" r="100" transform="rotate(135 120 120)"></circle>
+            </svg>
+            <div class="budget__handle" role="slider" tabindex="0" aria-label="Примерный бюджет" aria-valuemin="100000" aria-valuemax="600000" aria-valuenow="155000"></div>
+            <div class="budget__value">
+              <output class="budget__amount">155 000 ₽</output>
+              <span class="budget__hint">примерный бюджет</span>
+            </div>
+          </div>
+          <div class="budget__range">
+            <span>100 000 ₽</span>
+            <span>600 000 ₽</span>
+          </div>
+        </div>
       </div>
 
     </div>
