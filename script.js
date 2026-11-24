@@ -11,6 +11,7 @@
   var steps = dialog.querySelectorAll('.quiz__step');
   var options = dialog.querySelectorAll('.quiz__option');
   var nextBtns = dialog.querySelectorAll('.quiz__next');
+  var backBtns = dialog.querySelectorAll('.quiz__back');
   var input = dialog.querySelector('.quiz__input');
   var progress = dialog.querySelector('.quiz__progress');
   var progressBar = dialog.querySelector('.quiz__progress-bar');
@@ -91,6 +92,14 @@
     button.addEventListener('click', function () {
       var current = Number(button.closest('.quiz__step').dataset.step);
       setStep(current + 1);
+      focusActiveStep();
+    });
+  });
+
+  backBtns.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var current = Number(button.closest('.quiz__step').dataset.step);
+      setStep(current - 1);
       focusActiveStep();
     });
   });
