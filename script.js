@@ -1,11 +1,12 @@
 (function () {
-  var TOTAL_STEPS = 3;
+  var TOTAL_STEPS = 2;
 
   var dialog = document.getElementById('quiz');
   var openBtn = document.querySelector('[data-quiz-open]');
   var closeBtn = dialog.querySelector('.quiz__close');
   var steps = dialog.querySelectorAll('.quiz__step');
   var options = dialog.querySelectorAll('.quiz__option');
+  var input = dialog.querySelector('.quiz__input');
   var progress = dialog.querySelector('.quiz__progress');
   var progressBar = dialog.querySelector('.quiz__progress-bar');
   var counter = dialog.querySelector('.quiz__counter-current');
@@ -23,21 +24,12 @@
     progress.setAttribute('aria-valuenow', percent);
   }
 
-  function getCurrentStep() {
-    return Number(counter.textContent);
-  }
-
-  function hasStep(n) {
-    return Array.prototype.some.call(steps, function (step) {
-      return Number(step.dataset.step) === n;
-    });
-  }
-
   openBtn.addEventListener('click', function () {
     setStep(1);
     options.forEach(function (option) {
       option.classList.remove('is-selected');
     });
+    input.value = '';
     dialog.showModal();
   });
 
@@ -58,9 +50,9 @@
       });
       option.classList.add('is-selected');
 
-      var next = getCurrentStep() + 1;
-      if (hasStep(next)) {
-        setStep(next);
+      if (option.dataset.value === 'budget') {
+        setStep(2);
+        input.focus();
       }
     });
   });
