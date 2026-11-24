@@ -110,8 +110,9 @@
         <h2 class="quiz__title">Введите номер телефона</h2>
 
         <form class="quiz__form" novalidate>
-          <label class="quiz__field">
-            <input type="tel" class="quiz__input quiz__input--single quiz__phone" inputmode="tel" autocomplete="tel" placeholder="+7 000 000 00 00">
+          <label class="quiz__field quiz__phone-field">
+            <span class="quiz__phone-prefix" aria-hidden="true">+7</span>
+            <input type="tel" class="quiz__input quiz__input--single quiz__phone" inputmode="tel" autocomplete="tel" placeholder="000 000 00 00">
           </label>
 
           <p class="quiz__error" hidden>Введите номер полностью</p>

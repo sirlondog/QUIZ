@@ -57,15 +57,12 @@
 
   function formatPhone(value) {
     var digits = value.replace(/\D/g, '');
-    if (digits.charAt(0) === '7' || digits.charAt(0) === '8') {
+    if (digits.length > 10 && (digits.charAt(0) === '7' || digits.charAt(0) === '8')) {
       digits = digits.slice(1);
     }
     digits = digits.slice(0, 10);
-    if (!digits) {
-      return '';
-    }
     var parts = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 8), digits.slice(8, 10)];
-    return '+7 ' + parts.filter(Boolean).join(' ');
+    return parts.filter(Boolean).join(' ');
   }
 
   function sendLead(data) {
@@ -80,16 +77,10 @@
     phoneError.hidden = true;
   });
 
-  phone.addEventListener('blur', function () {
-    if (phone.value === '+7') {
-      phone.value = '';
-    }
-  });
-
   form.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    if (phone.value.replace(/\D/g, '').length !== 11) {
+    if (phone.value.replace(/\D/g, '').length !== 10) {
       phoneError.hidden = false;
       phone.focus();
       return;
@@ -99,7 +90,7 @@
       budget: Number(slider.value),
       tasks: input.value.trim(),
       contact: 'phone',
-      phone: phone.value
+      phone: '+7 ' + phone.value
     });
   });
 
