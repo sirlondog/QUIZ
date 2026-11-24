@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Квиз — подбор решения</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="quiz" id="quiz">
+    <div class="quiz__container">
+
+      <div class="quiz__progress">
+        <div class="quiz__progress-bar" style="width: 0%"></div>
+      </div>
+
+      <div class="quiz__step is-active" data-step="1">
+        <p class="quiz__counter">Шаг 1</p>
+        <h2 class="quiz__title">Как будем подбирать?</h2>
+
+        <div class="quiz__options">
+          <button type="button" class="quiz__option" data-value="budget">
+            <span class="quiz__option-title">Подберите под мой бюджет</span>
+            <span class="quiz__option-text">Укажите бюджет и задачи, мы подберем</span>
+          </button>
+
+          <button type="button" class="quiz__option" data-value="self">
+            <span class="quiz__option-title">Самостоятельно</span>
+            <span class="quiz__option-text">Вышлем расчет стоимости по выбранным параметрам</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
