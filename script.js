@@ -1,46 +1,85 @@
 (function () {
-  var TOTAL_STEPS = 5;
-
   var BUDGET_MIN = 100000;
   var BUDGET_MAX = 600000;
   var BUDGET_DEFAULT = 155000;
+
+  var PATH_BUDGET = ['1', '2', '3', '4'];
+  var PATH_PHONE = ['1', '2', '3', '4', '5'];
+  var PATH_MESSENGER = ['1', '2', '3', '4', '6', '7', '8'];
 
   var dialog = document.getElementById('quiz');
   var openBtn = document.querySelector('[data-quiz-open]');
   var closeBtn = dialog.querySelector('.quiz__close');
   var steps = dialog.querySelectorAll('.quiz__step');
-  var options = dialog.querySelectorAll('.quiz__option');
-  var nextBtns = dialog.querySelectorAll('.quiz__next:not([data-submit])');
-  var backBtns = dialog.querySelectorAll('.quiz__back');
-  var input = dialog.querySelector('.quiz__input');
   var progress = dialog.querySelector('.quiz__progress');
   var progressBar = dialog.querySelector('.quiz__progress-bar');
   var counter = dialog.querySelector('.quiz__counter-current');
   var counterTotal = dialog.querySelector('.quiz__counter-total');
 
+  var tasks = dialog.querySelector('[data-step="2"] .quiz__input');
   var slider = dialog.querySelector('.budget__slider');
   var amount = dialog.querySelector('.budget__amount');
+  var loginInput = dialog.querySelector('.quiz__login');
+  var phoneInputs = dialog.querySelectorAll('.quiz__phone');
+  var forms = dialog.querySelectorAll('.quiz__form');
 
-  var form = dialog.querySelector('.quiz__form');
-  var phone = dialog.querySelector('.quiz__phone');
-  var phoneError = dialog.querySelector('.quiz__error');
+  var path = PATH_BUDGET;
+  var contact = '';
+  var platform = '';
 
-  counterTotal.textContent = TOTAL_STEPS;
-
-  function setStep(n) {
-    steps.forEach(function (step) {
-      step.classList.toggle('is-active', Number(step.dataset.step) === n);
-    });
-    var percent = Math.round(n / TOTAL_STEPS * 100);
-    counter.textContent = n;
-    progressBar.style.width = percent + '%';
-    progress.setAttribute('aria-valuenow', percent);
+  function currentStepId() {
+    return dialog.querySelector('.quiz__step.is-active').dataset.step;
   }
 
-  function focusActiveStep() {
+  function showStep(id) {
+    steps.forEach(function (step) {
+      step.classList.toggle('is-active', step.dataset.step === id);
+    });
+
+    var current = path.indexOf(id) + 1;
+    var percent = Math.round(current / path.length * 100);
+    counter.textContent = current;
+    counterTotal.textContent = path.length;
+    progressBar.style.width = percent + '%';
+    progress.setAttribute('aria-valuenow', percent);
+
     var focusable = dialog.querySelector('.quiz__step.is-active input, .quiz__step.is-active textarea, .quiz__step.is-active button');
     if (focusable) {
       focusable.focus();
+    }
+  }
+
+  function showNext() {
+    var index = path.indexOf(currentStepId());
+    showStep(path[index + 1]);
+  }
+
+  function showPrev() {
+    var index = path.indexOf(currentStepId());
+    showStep(path[index - 1]);
+  }
+
+  function selectOption(option) {
+    option.closest('.quiz__step').querySelectorAll('.quiz__option').forEach(function (item) {
+      item.classList.remove('is-selected');
+    });
+    option.classList.add('is-selected');
+  }
+
+  function showError(step, input) {
+    var error = step.querySelector('.quiz__error');
+    if (error) {
+      error.hidden = false;
+    }
+    if (input) {
+      input.focus();
+    }
+  }
+
+  function clearError(input) {
+    var error = input.closest('.quiz__step').querySelector('.quiz__error');
+    if (error) {
+      error.hidden = true;
     }
   }
 
@@ -72,38 +111,56 @@
 
   slider.addEventListener('input', renderBudget);
 
-  phone.addEventListener('input', function () {
-    phone.value = formatPhone(phone.value);
-    phoneError.hidden = true;
+  phoneInputs.forEach(function (phone) {
+    phone.addEventListener('input', function () {
+      phone.value = formatPhone(phone.value);
+      clearError(phone);
+    });
   });
 
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
+  loginInput.addEventListener('input', function () {
+    clearError(loginInput);
+  });
 
-    if (phone.value.replace(/\D/g, '').length !== 10) {
-      phoneError.hidden = false;
-      phone.focus();
-      return;
-    }
+  forms.forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
 
-    sendLead({
-      budget: Number(slider.value),
-      tasks: input.value.trim(),
-      contact: 'phone',
-      phone: '+7 ' + phone.value
+      var phone = form.querySelector('.quiz__phone');
+      if (phone.value.replace(/\D/g, '').length !== 10) {
+        showError(form.closest('.quiz__step'), phone);
+        return;
+      }
+
+      sendLead({
+        budget: Number(slider.value),
+        tasks: tasks.value.trim(),
+        contact: contact,
+        platform: platform,
+        login: loginInput.value.trim(),
+        phone: '+7 ' + phone.value
+      });
     });
   });
 
   openBtn.addEventListener('click', function () {
-    setStep(1);
-    options.forEach(function (option) {
+    path = PATH_BUDGET;
+    contact = '';
+    platform = '';
+    dialog.querySelectorAll('.quiz__option').forEach(function (option) {
       option.classList.remove('is-selected');
     });
-    input.value = '';
-    phone.value = '';
-    phoneError.hidden = true;
+    tasks.value = '';
+    loginInput.value = '';
+    phoneInputs.forEach(function (phone) {
+      phone.value = '';
+    });
+    dialog.querySelectorAll('.quiz__error').forEach(function (error) {
+      error.hidden = true;
+    });
     slider.value = BUDGET_DEFAULT;
     renderBudget();
+    showStep('1');
     dialog.showModal();
   });
 
@@ -117,39 +174,47 @@
     }
   });
 
-  options.forEach(function (option) {
+  dialog.querySelectorAll('.quiz__option').forEach(function (option) {
     option.addEventListener('click', function () {
-      options.forEach(function (item) {
-        item.classList.remove('is-selected');
-      });
-      option.classList.add('is-selected');
+      selectOption(option);
 
-      if (option.dataset.value === 'budget') {
-        setStep(2);
-        focusActiveStep();
-      } else if (option.dataset.value === 'phone') {
-        setStep(5);
-        focusActiveStep();
+      var value = option.dataset.value;
+
+      if (value === 'budget') {
+        path = PATH_BUDGET;
+        showStep('2');
+      } else if (value === 'phone') {
+        contact = 'phone';
+        path = PATH_PHONE;
+        showStep('5');
+      } else if (value === 'messenger') {
+        contact = 'messenger';
+        path = PATH_MESSENGER;
+        showStep('6');
+      } else if (value === 'telegram' || value === 'max') {
+        platform = value;
+        showNext();
       }
     });
   });
 
-  nextBtns.forEach(function (button) {
+  dialog.querySelectorAll('.quiz__next:not([data-submit])').forEach(function (button) {
     button.addEventListener('click', function () {
-      var current = Number(button.closest('.quiz__step').dataset.step);
-      setStep(current + 1);
-      focusActiveStep();
+      var step = button.closest('.quiz__step');
+      var login = step.querySelector('.quiz__login');
+
+      if (login && !login.value.trim()) {
+        showError(step, login);
+        return;
+      }
+
+      showNext();
     });
   });
 
-  backBtns.forEach(function (button) {
-    button.addEventListener('click', function () {
-      var current = Number(button.closest('.quiz__step').dataset.step);
-      setStep(current - 1);
-      focusActiveStep();
-    });
+  dialog.querySelectorAll('.quiz__back').forEach(function (button) {
+    button.addEventListener('click', showPrev);
   });
 
-  setStep(1);
   renderBudget();
 })();

@@ -28,7 +28,7 @@
       </div>
 
       <div class="quiz__top">
-        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">5</span></p>
+        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">4</span></p>
         <button type="button" class="quiz__close" aria-label="Закрыть квиз">&times;</button>
       </div>
 
@@ -105,7 +105,6 @@
         </div>
       </div>
 
-
       <div class="quiz__step" data-step="5">
         <h2 class="quiz__title">Введите номер телефона</h2>
 
@@ -120,6 +119,63 @@
           <div class="quiz__nav">
             <button type="button" class="quiz__back">Назад</button>
             <button type="submit" class="quiz__next" data-submit>Жду звонка</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="quiz__step" data-step="6">
+        <h2 class="quiz__title">Где вам удобнее общаться?</h2>
+
+        <div class="quiz__options">
+          <button type="button" class="quiz__option quiz__option--contact" data-value="telegram">
+            <span class="quiz__option-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M21 4 3 11l6 2 2 7 3-4 5 4z"/></svg>
+            </span>
+            <span class="quiz__option-title">Telegram</span>
+          </button>
+
+          <button type="button" class="quiz__option quiz__option--contact" data-value="max">
+            <span class="quiz__option-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>
+            </span>
+            <span class="quiz__option-title">MAX</span>
+          </button>
+        </div>
+
+        <div class="quiz__nav">
+          <button type="button" class="quiz__back">Назад</button>
+        </div>
+      </div>
+
+      <div class="quiz__step" data-step="7">
+        <h2 class="quiz__title">Укажите логин</h2>
+
+        <label class="quiz__field">
+          <input type="text" class="quiz__input quiz__input--single quiz__login" autocomplete="username" placeholder="Ваш логин">
+        </label>
+
+        <p class="quiz__error" hidden>Укажите логин</p>
+
+        <div class="quiz__nav">
+          <button type="button" class="quiz__back">Назад</button>
+          <button type="button" class="quiz__next">Далее</button>
+        </div>
+      </div>
+
+      <div class="quiz__step" data-step="8">
+        <h2 class="quiz__title">Укажите телефон</h2>
+
+        <form class="quiz__form" novalidate>
+          <label class="quiz__field quiz__phone-field">
+            <span class="quiz__phone-prefix" aria-hidden="true">+7</span>
+            <input type="tel" class="quiz__input quiz__input--single quiz__phone" inputmode="tel" autocomplete="tel" placeholder="000 000 00 00">
+          </label>
+
+          <p class="quiz__error" hidden>Введите номер полностью</p>
+
+          <div class="quiz__nav">
+            <button type="button" class="quiz__back">Назад</button>
+            <button type="submit" class="quiz__next" data-submit>Жду сообщения</button>
           </div>
         </form>
       </div>
