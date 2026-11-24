@@ -154,6 +154,11 @@ button{font-family:inherit}
 .quiz__option--compact .quiz__option-icon{width:2.25rem;height:2.25rem;border-radius:.625rem}
 .quiz__option--compact .quiz__option-icon svg{width:1.125rem;height:1.125rem}
 .quiz__subchoice{margin-top:1.25rem}
+.quiz__options--cpu{grid-template-columns:repeat(2,minmax(0,1fr))}
+.quiz__option--wide{grid-column:1/-1}
+@media (min-width:36rem){
+  .quiz__options--cpu{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 .quiz__option--compact.is-selected{border-color:var(--cyan);background:var(--cyan);box-shadow:0 0 1.25rem rgba(0,217,255,.45)}
 .quiz__option--compact.is-selected .quiz__option-title{color:#0a0a0c}
 .quiz__option--compact.is-selected .quiz__option-icon{border-color:rgba(10,10,12,.25);background:rgba(10,10,12,.12)}
