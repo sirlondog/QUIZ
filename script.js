@@ -66,8 +66,14 @@
   function selectOption(option) {
     option.parentElement.querySelectorAll('.quiz__option').forEach(function (item) {
       item.classList.remove('is-selected');
+      if (item.getAttribute('role') === 'radio') {
+        item.setAttribute('aria-checked', 'false');
+      }
     });
     option.classList.add('is-selected');
+    if (option.getAttribute('role') === 'radio') {
+      option.setAttribute('aria-checked', 'true');
+    }
   }
 
   function showError(step, input) {
