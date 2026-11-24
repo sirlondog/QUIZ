@@ -8,6 +8,7 @@
   var PATH_MESSENGER_LOGIN = ['1', '2', '3', '4', '6', '7'];
   var PATH_MESSENGER_PHONE = ['1', '2', '3', '4', '6', '8'];
   var PATH_SELF = ['1', 'cpu'];
+  var PATH_SELF_I5 = ['1', 'cpu', 'model-i5'];
 
   var dialog = document.getElementById('quiz');
   var openBtn = document.querySelector('[data-quiz-open]');
@@ -30,6 +31,7 @@
   var contact = '';
   var platform = '';
   var cpu = '';
+  var model = '';
 
   function currentStepId() {
     return dialog.querySelector('.quiz__step.is-active').dataset.step;
@@ -166,6 +168,7 @@
     contact = '';
     platform = '';
     cpu = '';
+    model = '';
     dialog.querySelectorAll('.quiz__option').forEach(function (option) {
       option.classList.remove('is-selected');
     });
@@ -206,8 +209,14 @@
       } else if (value === 'self') {
         path = PATH_SELF;
         showStep('cpu');
+      } else if (value === 'cpu-intel-i5') {
+        cpu = value;
+        path = PATH_SELF_I5;
+        showStep('model-i5');
       } else if (value.indexOf('cpu-') === 0) {
         cpu = value;
+      } else if (value.indexOf('model-') === 0) {
+        model = value;
       } else if (value === 'phone') {
         contact = 'phone';
         path = PATH_PHONE;

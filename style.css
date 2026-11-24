@@ -155,6 +155,9 @@ button{font-family:inherit}
 .quiz__option--compact .quiz__option-icon svg{width:1.125rem;height:1.125rem}
 .quiz__subchoice{margin-top:1.25rem}
 .quiz__options--list{grid-template-columns:minmax(0,1fr);gap:.625rem}
+.quiz__scroll{max-height:22rem;margin-top:1.5rem;overflow-y:auto;padding-right:.375rem;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(0,217,255,.45) transparent}
+.quiz__scroll .quiz__options{margin-top:0}
+.quiz__option--group{margin-top:.625rem}
 .quiz__option--radio{flex-direction:row;align-items:center;gap:.875rem;padding:1rem 1.25rem;border-radius:1rem}
 .quiz__option--radio .quiz__option-title{font-size:1.0625rem;line-height:1.3}
 .quiz__option--radio:hover{border-color:rgba(0,217,255,.35)}
