@@ -5,7 +5,8 @@
 
   var PATH_BUDGET = ['1', '2', '3', '4'];
   var PATH_PHONE = ['1', '2', '3', '4', '5'];
-  var PATH_MESSENGER = ['1', '2', '3', '4', '6', '7', '8'];
+  var PATH_MESSENGER_LOGIN = ['1', '2', '3', '4', '6', '7'];
+  var PATH_MESSENGER_PHONE = ['1', '2', '3', '4', '6', '8'];
 
   var dialog = document.getElementById('quiz');
   var openBtn = document.querySelector('[data-quiz-open]');
@@ -19,6 +20,7 @@
   var tasks = dialog.querySelector('[data-step="2"] .quiz__input');
   var slider = dialog.querySelector('.budget__slider');
   var amount = dialog.querySelector('.budget__amount');
+  var subchoice = dialog.querySelector('.quiz__subchoice');
   var loginInput = dialog.querySelector('.quiz__login');
   var phoneInputs = dialog.querySelectorAll('.quiz__phone');
   var forms = dialog.querySelectorAll('.quiz__form');
@@ -60,7 +62,7 @@
   }
 
   function selectOption(option) {
-    option.closest('.quiz__step').querySelectorAll('.quiz__option').forEach(function (item) {
+    option.parentElement.querySelectorAll('.quiz__option').forEach(function (item) {
       item.classList.remove('is-selected');
     });
     option.classList.add('is-selected');
@@ -126,9 +128,17 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
 
+      var step = form.closest('.quiz__step');
+      var login = form.querySelector('.quiz__login');
       var phone = form.querySelector('.quiz__phone');
-      if (phone.value.replace(/\D/g, '').length !== 10) {
-        showError(form.closest('.quiz__step'), phone);
+
+      if (login) {
+        if (!login.value.trim()) {
+          showError(step, login);
+          return;
+        }
+      } else if (phone.value.replace(/\D/g, '').length !== 10) {
+        showError(step, phone);
         return;
       }
 
@@ -137,8 +147,8 @@
         tasks: tasks.value.trim(),
         contact: contact,
         platform: platform,
-        login: loginInput.value.trim(),
-        phone: '+7 ' + phone.value
+        login: login ? login.value.trim() : '',
+        phone: phone ? '+7 ' + phone.value : ''
       });
     });
   });
@@ -150,6 +160,7 @@
     dialog.querySelectorAll('.quiz__option').forEach(function (option) {
       option.classList.remove('is-selected');
     });
+    subchoice.hidden = true;
     tasks.value = '';
     loginInput.value = '';
     phoneInputs.forEach(function (phone) {
@@ -189,27 +200,24 @@
         showStep('5');
       } else if (value === 'messenger') {
         contact = 'messenger';
-        path = PATH_MESSENGER;
+        path = PATH_MESSENGER_LOGIN;
+        subchoice.hidden = true;
         showStep('6');
       } else if (value === 'telegram' || value === 'max') {
         platform = value;
-        showNext();
+        subchoice.hidden = false;
+      } else if (value === 'messenger-login') {
+        path = PATH_MESSENGER_LOGIN;
+        showStep('7');
+      } else if (value === 'messenger-phone') {
+        path = PATH_MESSENGER_PHONE;
+        showStep('8');
       }
     });
   });
 
   dialog.querySelectorAll('.quiz__next:not([data-submit])').forEach(function (button) {
-    button.addEventListener('click', function () {
-      var step = button.closest('.quiz__step');
-      var login = step.querySelector('.quiz__login');
-
-      if (login && !login.value.trim()) {
-        showError(step, login);
-        return;
-      }
-
-      showNext();
-    });
+    button.addEventListener('click', showNext);
   });
 
   dialog.querySelectorAll('.quiz__back').forEach(function (button) {

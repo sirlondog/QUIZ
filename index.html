@@ -126,19 +126,29 @@
       <div class="quiz__step" data-step="6">
         <h2 class="quiz__title">Где вам удобнее общаться?</h2>
 
-        <div class="quiz__options">
-          <button type="button" class="quiz__option quiz__option--contact" data-value="telegram">
+        <div class="quiz__options quiz__options--compact">
+          <button type="button" class="quiz__option quiz__option--compact" data-value="telegram">
             <span class="quiz__option-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M21 4 3 11l6 2 2 7 3-4 5 4z"/></svg>
             </span>
             <span class="quiz__option-title">Telegram</span>
           </button>
 
-          <button type="button" class="quiz__option quiz__option--contact" data-value="max">
+          <button type="button" class="quiz__option quiz__option--compact" data-value="max">
             <span class="quiz__option-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>
             </span>
             <span class="quiz__option-title">MAX</span>
+          </button>
+        </div>
+
+        <div class="quiz__options quiz__options--compact quiz__subchoice" hidden>
+          <button type="button" class="quiz__option quiz__option--compact" data-value="messenger-login">
+            <span class="quiz__option-title">Указать логин</span>
+          </button>
+
+          <button type="button" class="quiz__option quiz__option--compact" data-value="messenger-phone">
+            <span class="quiz__option-title">Указать телефон</span>
           </button>
         </div>
 
@@ -150,16 +160,18 @@
       <div class="quiz__step" data-step="7">
         <h2 class="quiz__title">Укажите логин</h2>
 
-        <label class="quiz__field">
-          <input type="text" class="quiz__input quiz__input--single quiz__login" autocomplete="username" placeholder="Ваш логин">
-        </label>
+        <form class="quiz__form" novalidate>
+          <label class="quiz__field">
+            <input type="text" class="quiz__input quiz__input--single quiz__login" autocomplete="username" placeholder="Ваш логин">
+          </label>
 
-        <p class="quiz__error" hidden>Укажите логин</p>
+          <p class="quiz__error" hidden>Укажите логин</p>
 
-        <div class="quiz__nav">
-          <button type="button" class="quiz__back">Назад</button>
-          <button type="button" class="quiz__next">Далее</button>
-        </div>
+          <div class="quiz__nav">
+            <button type="button" class="quiz__back">Назад</button>
+            <button type="submit" class="quiz__next" data-submit>Жду сообщения</button>
+          </div>
+        </form>
       </div>
 
       <div class="quiz__step" data-step="8">
