@@ -1,5 +1,5 @@
 (function () {
-  var TOTAL_STEPS = 3;
+  var TOTAL_STEPS = 4;
 
   var BUDGET_MIN = 100000;
   var BUDGET_MAX = 600000;
@@ -10,8 +10,8 @@
   var closeBtn = dialog.querySelector('.quiz__close');
   var steps = dialog.querySelectorAll('.quiz__step');
   var options = dialog.querySelectorAll('.quiz__option');
+  var nextBtns = dialog.querySelectorAll('.quiz__next');
   var input = dialog.querySelector('.quiz__input');
-  var nextBtn = dialog.querySelector('[data-next]');
   var progress = dialog.querySelector('.quiz__progress');
   var progressBar = dialog.querySelector('.quiz__progress-bar');
   var counter = dialog.querySelector('.quiz__counter-current');
@@ -30,6 +30,13 @@
     counter.textContent = n;
     progressBar.style.width = percent + '%';
     progress.setAttribute('aria-valuenow', percent);
+  }
+
+  function focusActiveStep() {
+    var focusable = dialog.querySelector('.quiz__step.is-active input, .quiz__step.is-active textarea, .quiz__step.is-active button');
+    if (focusable) {
+      focusable.focus();
+    }
   }
 
   function formatBudget(value) {
@@ -75,14 +82,17 @@
 
       if (option.dataset.value === 'budget') {
         setStep(2);
-        input.focus();
+        focusActiveStep();
       }
     });
   });
 
-  nextBtn.addEventListener('click', function () {
-    setStep(3);
-    slider.focus();
+  nextBtns.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var current = Number(button.closest('.quiz__step').dataset.step);
+      setStep(current + 1);
+      focusActiveStep();
+    });
   });
 
   setStep(1);
