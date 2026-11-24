@@ -1,5 +1,5 @@
 (function () {
-  var TOTAL_STEPS = 4;
+  var TOTAL_STEPS = 5;
 
   var BUDGET_MIN = 100000;
   var BUDGET_MAX = 600000;
@@ -10,7 +10,7 @@
   var closeBtn = dialog.querySelector('.quiz__close');
   var steps = dialog.querySelectorAll('.quiz__step');
   var options = dialog.querySelectorAll('.quiz__option');
-  var nextBtns = dialog.querySelectorAll('.quiz__next');
+  var nextBtns = dialog.querySelectorAll('.quiz__next:not([data-submit])');
   var backBtns = dialog.querySelectorAll('.quiz__back');
   var input = dialog.querySelector('.quiz__input');
   var progress = dialog.querySelector('.quiz__progress');
@@ -20,6 +20,10 @@
 
   var slider = dialog.querySelector('.budget__slider');
   var amount = dialog.querySelector('.budget__amount');
+
+  var form = dialog.querySelector('.quiz__form');
+  var phone = dialog.querySelector('.quiz__phone');
+  var phoneError = dialog.querySelector('.quiz__error');
 
   counterTotal.textContent = TOTAL_STEPS;
 
@@ -51,7 +55,53 @@
     slider.style.setProperty('--fill', percent + '%');
   }
 
+  function formatPhone(value) {
+    var digits = value.replace(/\D/g, '');
+    if (digits.charAt(0) === '7' || digits.charAt(0) === '8') {
+      digits = digits.slice(1);
+    }
+    digits = digits.slice(0, 10);
+    if (!digits) {
+      return '';
+    }
+    var parts = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 8), digits.slice(8, 10)];
+    return '+7 ' + parts.filter(Boolean).join(' ');
+  }
+
+  function sendLead(data) {
+    // Куда отправлять заявку — добавим позже
+    console.log('Заявка', data);
+  }
+
   slider.addEventListener('input', renderBudget);
+
+  phone.addEventListener('input', function () {
+    phone.value = formatPhone(phone.value);
+    phoneError.hidden = true;
+  });
+
+  phone.addEventListener('blur', function () {
+    if (phone.value === '+7') {
+      phone.value = '';
+    }
+  });
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    if (phone.value.replace(/\D/g, '').length !== 11) {
+      phoneError.hidden = false;
+      phone.focus();
+      return;
+    }
+
+    sendLead({
+      budget: Number(slider.value),
+      tasks: input.value.trim(),
+      contact: 'phone',
+      phone: phone.value
+    });
+  });
 
   openBtn.addEventListener('click', function () {
     setStep(1);
@@ -59,6 +109,8 @@
       option.classList.remove('is-selected');
     });
     input.value = '';
+    phone.value = '';
+    phoneError.hidden = true;
     slider.value = BUDGET_DEFAULT;
     renderBudget();
     dialog.showModal();
@@ -83,6 +135,9 @@
 
       if (option.dataset.value === 'budget') {
         setStep(2);
+        focusActiveStep();
+      } else if (option.dataset.value === 'phone') {
+        setStep(5);
         focusActiveStep();
       }
     });

@@ -28,7 +28,7 @@
       </div>
 
       <div class="quiz__top">
-        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">4</span></p>
+        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">5</span></p>
         <button type="button" class="quiz__close" aria-label="Закрыть квиз">&times;</button>
       </div>
 
@@ -103,6 +103,24 @@
         <div class="quiz__nav">
           <button type="button" class="quiz__back">Назад</button>
         </div>
+      </div>
+
+
+      <div class="quiz__step" data-step="5">
+        <h2 class="quiz__title">Введите номер телефона</h2>
+
+        <form class="quiz__form" novalidate>
+          <label class="quiz__field">
+            <input type="tel" class="quiz__input quiz__input--single quiz__phone" inputmode="tel" autocomplete="tel" placeholder="+7 000 000 00 00">
+          </label>
+
+          <p class="quiz__error" hidden>Введите номер полностью</p>
+
+          <div class="quiz__nav">
+            <button type="button" class="quiz__back">Назад</button>
+            <button type="submit" class="quiz__next" data-submit>Жду звонка</button>
+          </div>
+        </form>
       </div>
 
     </div>
