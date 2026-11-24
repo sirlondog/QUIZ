@@ -16,33 +16,40 @@
     </div>
   </header>
 
-  <main>
-    <section class="quiz wrap" id="quiz">
-      <div class="quiz__card">
-
-        <div class="quiz__progress" aria-hidden="true">
-          <div class="quiz__progress-bar" style="width: 0%"></div>
-        </div>
-
-        <div class="quiz__step is-active" data-step="1">
-          <h1 class="quiz__title">Как будем подбирать?</h1>
-
-          <div class="quiz__options">
-            <button type="button" class="quiz__option" data-value="budget">
-              <span class="quiz__option-title">Подберите под мой бюджет</span>
-              <span class="quiz__option-text">Укажите бюджет и задачи, мы подберем</span>
-            </button>
-
-            <button type="button" class="quiz__option" data-value="self">
-              <span class="quiz__option-title">Самостоятельно</span>
-              <span class="quiz__option-text">Вышлем расчет стоимости по выбранным параметрам</span>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </section>
+  <main class="page wrap">
+    <button type="button" class="quiz-open" data-quiz-open>Подобрать компьютер</button>
   </main>
+
+  <dialog class="quiz" id="quiz" aria-labelledby="quiz-title">
+    <div class="quiz__card">
+
+      <div class="quiz__progress" role="progressbar" aria-label="Прогресс квиза" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="quiz__progress-bar" style="width: 0%"></div>
+      </div>
+
+      <div class="quiz__top">
+        <p class="quiz__counter">Шаг <span class="quiz__counter-current">1</span> из <span class="quiz__counter-total">3</span></p>
+        <button type="button" class="quiz__close" aria-label="Закрыть квиз">&times;</button>
+      </div>
+
+      <div class="quiz__step is-active" data-step="1">
+        <h2 class="quiz__title" id="quiz-title">Как будем подбирать?</h2>
+
+        <div class="quiz__options">
+          <button type="button" class="quiz__option" data-value="budget">
+            <span class="quiz__option-title">Подберите под мой бюджет</span>
+            <span class="quiz__option-text">Укажите бюджет и задачи, мы подберем</span>
+          </button>
+
+          <button type="button" class="quiz__option" data-value="self">
+            <span class="quiz__option-title">Самостоятельно</span>
+            <span class="quiz__option-text">Вышлем расчет стоимости по выбранным параметрам</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </dialog>
 
   <script src="script.js"></script>
 </body>

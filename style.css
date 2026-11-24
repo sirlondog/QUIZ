@@ -17,7 +17,7 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font:400 1rem/1.5 var(--font);-webkit-font-smoothing:antialiased}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font:400 1rem/1.5 var(--font);-webkit-font-smoothing:antialiased}
 h1,h2,p,ul{margin:0;padding:0}
 ul{list-style:none}
 button{font-family:inherit}
@@ -31,38 +31,97 @@ button{font-family:inherit}
 .logo{font-weight:600;font-size:1.125rem;letter-spacing:.04em;text-decoration:none;color:var(--fg)}
 .logo span{color:var(--cyan)}
 
-/* ---------- Блок квиза ---------- */
-.quiz{padding-block:calc(1rem + 100px) 2.5rem}
-.quiz__card{max-width:40rem;margin-inline:auto;padding:1.875rem;border:1px solid var(--line);border-radius:1.875rem;background:#0a0a0c;box-shadow:-1.375rem 1.375rem 6.25rem -.875rem rgba(0,217,255,.12)}
+/* ---------- Страница с кнопкой открытия ---------- */
+.page{display:flex;align-items:center;justify-content:center;min-height:100vh;padding-top:5rem}
+.quiz-open{min-height:3.75rem;padding:.5rem 2.125rem;border:0;border-radius:62.5rem;background:var(--cyan);color:#0a0a0c;font-weight:600;font-size:1.25rem;cursor:pointer;box-shadow:0 0 .625rem rgba(0,217,255,.34);transition:box-shadow .2s,transform .2s}
+@media (hover:hover){
+  .quiz-open:hover{box-shadow:0 0 1.5rem rgba(0,217,255,.6);transform:translateY(-1px)}
+}
 
-.quiz__progress{height:.375rem;border-radius:62.5rem;background:var(--line);overflow:hidden}
-.quiz__progress-bar{height:100%;border-radius:62.5rem;background:var(--cyan);box-shadow:0 0 .625rem rgba(0,217,255,.5);transition:width .3s ease}
+/* ---------- Попап квиза ---------- */
+.quiz{
+  width:min(40rem,calc(100vw - 1.5rem));
+  max-height:calc(100dvh - 1.5rem);
+  margin:auto;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--fg);
+  overflow:visible;
+}
+.quiz::backdrop{background:rgba(0,0,0,.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.quiz[open]{animation:quiz-in .25s ease-out}
+@keyframes quiz-in{from{opacity:0;transform:translateY(12px)}}
 
-.quiz__step{display:none}
+.quiz__card{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  max-height:calc(100dvh - 1.5rem);
+  overflow:auto;
+  border:1px solid var(--line);
+  border-radius:1.5rem;
+  background:#0a0a0c;
+  box-shadow:-1.375rem 1.375rem 6.25rem -.875rem rgba(0,217,255,.12);
+}
+
+/* Индикатор прогресса — полоса по верхнему краю попапа */
+.quiz__progress{flex:none;height:.25rem;background:var(--line)}
+.quiz__progress-bar{height:100%;background:var(--cyan);box-shadow:0 0 .625rem rgba(0,217,255,.5);transition:width .3s ease}
+
+.quiz__top{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.25rem 1.25rem 0 1.5rem}
+.quiz__counter{color:var(--muted);font-size:1rem;line-height:1.3}
+.quiz__counter-current{color:var(--fg);font-weight:600}
+
+.quiz__close{display:grid;place-items:center;flex:none;width:2.625rem;height:2.625rem;padding:0;border:1px solid var(--line);border-radius:50%;background:none;color:var(--fg);font:400 1.5rem/1 var(--font);cursor:pointer;transition:border-color .2s,color .2s}
+@media (hover:hover){
+  .quiz__close:hover{border-color:var(--cyan);color:var(--cyan)}
+}
+
+.quiz__step{display:none;padding:1.5rem 1.5rem 1.75rem}
 .quiz__step.is-active{display:block}
 
-.quiz__title{margin-top:1.75rem;font-weight:600;font-size:2.125rem;line-height:1.18;text-wrap:balance}
+.quiz__title{font-weight:600;font-size:1.75rem;line-height:1.18;text-wrap:balance}
 
-.quiz__options{display:grid;gap:1rem;margin-top:1.75rem}
+.quiz__options{display:grid;gap:1rem;margin-top:1.5rem}
 
-.quiz__option{display:flex;flex-direction:column;gap:.5rem;width:100%;padding:1.5rem;text-align:left;font:inherit;color:inherit;background:#0a0a0c;border:1px solid var(--line);border-radius:1.25rem;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s}
+.quiz__option{display:flex;flex-direction:column;gap:.5rem;width:100%;padding:1.5rem;text-align:left;font:inherit;color:inherit;background:#0a0a0c;border:1px solid var(--line);border-radius:1.25rem;cursor:pointer;transition:border-color .2s,box-shadow .2s}
 .quiz__option-title{font-weight:600;font-size:1.25rem;line-height:1.25}
 .quiz__option-text{color:var(--muted);font-size:1rem;line-height:1.45}
 
 .quiz__option:hover,
 .quiz__option.is-selected{border-color:rgba(0,217,255,.35);box-shadow:-1.375rem 1.375rem 6.25rem -.875rem rgba(0,217,255,.25)}
-.quiz__option:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .quiz__option.is-selected .quiz__option-title{color:var(--cyan)}
 
-@media (min-width:64rem){
-  .quiz{padding-top:calc(2vh + 100px)}
-  .quiz__card{padding:2.5rem}
-  .quiz__title{font-size:2.375rem}
+@media (min-width:36rem){
+  .quiz__step{padding:1.75rem 2rem 2rem}
+  .quiz__top{padding:1.5rem 2rem 0}
+  .quiz__title{font-size:2.125rem}
   .quiz__options{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
-@media (max-width:480px){
-  .quiz__card{padding:1.5rem 1.25rem;border-radius:1.25rem}
+/* Телефон: попап снизу экрана во всю ширину */
+@media (max-width:479px){
+  .quiz{
+    width:100%;
+    max-height:92dvh;
+    margin:auto 0 0;
+  }
+  .quiz__card{border-radius:1.25rem 1.25rem 0 0;border-bottom:0;max-height:92dvh}
+  .quiz__top{padding:1rem 1.25rem 0}
+  .quiz__step{padding:1.25rem 1.25rem 1.5rem}
   .quiz__title{font-size:1.5rem}
+  .quiz__option{padding:1.25rem}
   .quiz__option-title{font-size:1.125rem}
+}
+
+/* Низкие экраны (ландшафт телефона): попап не выходит за экран */
+@media (max-height:520px){
+  .quiz__step{padding-block:1rem 1.25rem}
+  .quiz__options{margin-top:1rem}
+  .quiz__option{padding:1rem 1.25rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
 }
