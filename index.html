@@ -62,17 +62,8 @@
         <h2 class="quiz__title">Укажите примерный бюджет на компьютер</h2>
 
         <div class="budget">
-          <div class="budget__dial">
-            <svg class="budget__svg" viewBox="0 0 240 240" aria-hidden="true">
-              <circle class="budget__track" cx="120" cy="120" r="100" transform="rotate(135 120 120)"></circle>
-              <circle class="budget__fill" cx="120" cy="120" r="100" transform="rotate(135 120 120)"></circle>
-            </svg>
-            <div class="budget__handle" role="slider" tabindex="0" aria-label="Примерный бюджет" aria-valuemin="100000" aria-valuemax="600000" aria-valuenow="155000"></div>
-            <div class="budget__value">
-              <output class="budget__amount">155 000 ₽</output>
-              <span class="budget__hint">примерный бюджет</span>
-            </div>
-          </div>
+          <output class="budget__amount">155 000 ₽</output>
+          <input type="range" class="budget__slider" min="100000" max="600000" step="5000" value="155000" aria-label="Примерный бюджет">
           <div class="budget__range">
             <span>100 000 ₽</span>
             <span>600 000 ₽</span>
